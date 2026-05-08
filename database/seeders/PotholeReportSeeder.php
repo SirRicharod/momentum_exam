@@ -29,8 +29,9 @@ class PotholeReportSeeder extends Seeder
             ['street_name' => 'Europalaan', 'severity' => 3, 'status' => 'reported', 'description' => 'Getting worse with the rain.'],
         ];
 
-        foreach ($reports as $index => $report) {
-            $report['location_id'] = $locations[$index % $locations->count()]->id;
+        foreach ($reports as $report) {
+            // Assign a random existing location to each report
+            $report['location_id'] = $locations->random()->id;
             PotholeReport::create($report);
         }
     }

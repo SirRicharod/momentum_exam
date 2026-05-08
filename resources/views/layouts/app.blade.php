@@ -23,7 +23,9 @@
 
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="{{ route('reports.index') }}" class="nav-link {{ request()->routeIs('reports.index') ? 'active' : '' }}">Dashboard</a></li>
+            @if (!request()->routeIs('reports.create'))
             <li class="nav-item"><a href="{{ route('reports.create') }}" class="nav-link {{ request()->routeIs('reports.create') ? 'active' : '' }}">Report Pothole</a></li>
+            @endif
         </ul>
     </header>
 

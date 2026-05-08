@@ -67,7 +67,7 @@ class PotholeReportTest extends TestCase
         $response = $this->delete(route('reports.destroy', $report));
 
         $response->assertRedirect(route('reports.index'));
-        $this->assertDatabaseMissing('pothole_reports', [
+        $this->assertSoftDeleted('pothole_reports', [
             'id' => $report->id,
         ]);
     }

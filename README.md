@@ -22,11 +22,7 @@ Kopieer het bestand `.env.example` en configureer je database. Vergeet niet het 
    cp .env.example .env
    php artisan key:generate
    ```
-Standaard is het ingesteld om SQLite te gebruiken. Je kunt het databasebestand aanmaken door het volgende uit te voeren:
-
-   ```bash
-   touch database/database.sqlite
-   ```
+Standaard is het ingesteld om SQLite te gebruiken.
 <small>*Bij het verwijderen van een rapport wordt gebruikgemaakt van **soft deletes** – het record wordt niet uit de database verwijderd, maar er wordt alleen een timestamp `deleted_at` ingesteld, waardoor het later weer kan worden hersteld.*</small>
 
 4. **Run Migrations and Seeders:**
@@ -39,7 +35,7 @@ Dummy-data met de belangrijkste Belgische steden en realistische meldingen van k
    ```bash
    php artisan serve
    ```
-   The development server will be available at `http://127.0.0.1:8000`.
+   De development server is beschikbaar op `http://127.0.0.1:8000`.
 <small>*Als je Vite‑dependencies hebt, voer eerst `npm install` uit en daarna `npm run dev` in een apart venster.*</small>
 
 ## Gebruik

@@ -1,35 +1,36 @@
 # Pothole Fixer BE 🚧
 
-## Concept & Relevance to Belgium
-Belgium is somewhat notorious for the quality of its roads, particularly the frequent appearance of potholes after harsh winters or heavy rain. This "Pothole Fixer" application provides a rapid, frictionless way for citizens to report potholes. By centralizing these reports with severities and locations (using major Belgian cities), municipalities can prioritize repairs effectively, ensuring safer roads.
+## Concept en Relevantie
+Belgie staat er, spijtig genoeg, om bekend dat de kwaliteit van de wegen te verbeteren valt, met name door de vele kuilen. Zelfs vandaag toen ik mijn ouders naar de luchthaven in Eindhoven bracht voelde je de overgang van Belgie naar Nederland, een verschil van dag en nacht. Met de app “Pothole Fixer” kunnen gebruikers snel en eenvoudig kuilen melden. Door deze rapporten, inclusief de ernst en de locatie te centraliseren, kunnen gemeenten effectief prioriteiten stellen bij herstelwerkzaamheden en zo zorgen voor veiligere wegen.
 
 ## Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/SirRicharod/momentum_exam
    cd momentum_exam
    ```
 
 2. **Install dependencies:**
    ```bash
    composer install
-   npm install
    ```
 
 3. **Configure Environment:**
-   Copy the `.env.example` file and configure your database.
+Kopieer het bestand `.env.example` en configureer je database. Vergeet niet het nieuwe `.env`‑bestand aan te passen (bijv. `DB_CONNECTION=sqlite` en `DB_DATABASE=./database/database.sqlite`).
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-   By default, it's set up to use SQLite. You can create the database file by running:
+Standaard is het ingesteld om SQLite te gebruiken. Je kunt het databasebestand aanmaken door het volgende uit te voeren:
+
    ```bash
    touch database/database.sqlite
    ```
+<small>*Bij het verwijderen van een rapport wordt gebruikgemaakt van **soft deletes** – het record wordt niet uit de database verwijderd, maar er wordt alleen een timestamp `deleted_at` ingesteld, waardoor het later weer kan worden hersteld.*</small>
 
 4. **Run Migrations and Seeders:**
-   We have provided dummy data featuring major Belgian cities and realistic pothole reports.
+Dummy-data met de belangrijkste Belgische steden en realistische meldingen van kuilen in het wegdek.   
    ```bash
    php artisan migrate:fresh --seed
    ```
@@ -38,18 +39,38 @@ Belgium is somewhat notorious for the quality of its roads, particularly the fre
    ```bash
    php artisan serve
    ```
-   *Note: If you have Vite dependencies, you can also run `npm run dev` in a separate terminal.*
+   The development server will be available at `http://127.0.0.1:8000`.
+<small>*Als je Vite‑dependencies hebt, voer eerst `npm install` uit en daarna `npm run dev` in een apart venster.*</small>
 
-## Usage
-- **Dashboard:** Visit `http://localhost:8000/` to see all current pothole reports.
-- **Reporting:** Click "Report New Pothole" to submit a new entry.
-- **Updating/Deleting:** You can edit the details or remove a false report.
-- **Status Toggling:** Reports can be marked as "Fixed" right from the dashboard to quickly keep the community up-to-date.
-- **High Priority:** Use the "⚠️ High Priority" button to filter out reports with a severity of 4 or higher.
+## Gebruik
+- **Dashboard:** Ga naar `http://localhost:8000/` om alle huidige meldingen van kuilen te bekijken. De lijst is **in pagina’s ingedeeld (6 meldingen per pagina)**; gebruik de paginanummers onderaan om te navigeren.
 
-## Momentum Factor & Scaling
-Currently, the application allows anyone to mark a pothole as fixed. This frictionless approach creates a massive momentum loop. As it scales:
-- **Authentication & Roles:** We can easily gate the "Mark Fixed" action behind municipality accounts (like `admin`).
-- **Geolocation:** Integrations with Google Maps / Mapbox can place the exact coordinates.
-- **Automation:** We could add notifications (e.g. email or SMS) when high-severity potholes are reported or resolved.
-- **National Infrastructure Tool:** This MVP scales from a local municipality board to a national dashboard for overseeing public road works.
+- **Meldingen:** Klik op de knop “Report Pothole” om een nieuwe melding in te dienen.
+
+- **Bijwerken/verwijderen:** Je kunt de details bewerken of een report **soft deleten** (deze wordt verborgen, maar kan later worden hersteld).
+
+- **Status wijzigen:** Meldingen kunnen direct vanuit het dashboard worden gemarkeerd als `Fixed` om de community snel op de hoogte te houden.
+
+- **Hoge prioriteit:** Gebruik de knop “⚠️ Hoge prioriteit” om meldingen met een prio van 4 of hoger te filteren.
+
+## Momentumfactor & schaalbaarheid
+Momenteel kan iedereen in de app een kuil als "fixed" markeren, wat een beveiligingsprobleem is dat later moet worden opgelost. In toekomstige versies zullen we authenticatie en rolgebaseerde permissies implementeren om deze actie te beperken.
+Naarmate het systeem opschaalbaar wordt:
+
+- **Authenticatie & rollen:** We kunnen de actie "Mark as Fixed" eenvoudig beperken tot gemeentelijke accounts (zoals `admin`).
+
+- **Geolocatie:** Integraties met Google Maps kunnen de exacte coördinaten vastleggen.
+
+- **Automatisering:** We kunnen meldingen toevoegen (bijv. e-mail of sms) wanneer kuilen met een hoge ernst worden gemeld of opgelost.
+
+### Toekomstige verbeteringen
+- **Eindpunt voor herstel:** Voeg een route/controller-methode toe om soft-deleted rapporten te herstellen.
+
+- **Kaartondersteuning:** Sla lengte- en breedtegraad op in de tabel `locations` voor weergave op de kaart.
+
+- **Op rollen gebaseerde toegangscontrole:** Bewerkings- en verwijderingsacties beperken tot geautoriseerde gebruikers.
+
+### Technische opmerkingen
+- Vereist **PHP 8.x** en **Laravel 10** (of nieuwer) om te kunnen werken.
+
+- Maakt gebruik van **Bootstrap 5** voor UI.
